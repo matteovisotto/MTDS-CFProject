@@ -7,8 +7,9 @@ from Utility.PositionLogging import MCPositionLogging
 
 class SafeFlyController:
 
-    def __init__(self, scf):
+    def __init__(self, scf, user_position_controller=True):
         super.__init__()
+        self.use_position_controller = user_position_controller
         self.motion_commander = None
         self.motion_locked = False
         self.max_x = 0.5
@@ -26,9 +27,10 @@ class SafeFlyController:
         self.fly_commands = self.empty_fly
 
     def start_flying(self):
-        self.logging.set_on_x_changed(self.x_controller)
-        self.logging.set_on_y_changed(self.y_controller)
-        self.logging.set_on_z_changed(self.z_controller)
+        if self.use_position_controller:
+            self.logging.set_on_x_changed(self.x_controller)
+            self.logging.set_on_y_changed(self.y_controller)
+            self.logging.set_on_z_changed(self.z_controller)
         self.logging.start_logging()
         self.create_motion_commander()
 
