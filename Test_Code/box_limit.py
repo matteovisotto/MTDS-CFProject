@@ -8,7 +8,7 @@ from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.positioning.motion_commander import MotionCommander
 
 
-URI = 'radio://0/80/2M/E7E7E7E700'
+URI = 'radio://0/80/2M/E7E7E7E705'
 DEFAULT_HEIGHT = 0.5
 BOX_LIMIT_X = 0.5
 BOX_LIMIT_Y = 0.2
@@ -44,7 +44,6 @@ def move_box_limit(scf):
                 body_z_cmd = -max_vel
             elif position_estimate[2] < BOX_LIMIT_Z:
                 body_z_cmd = max_vel
-
 
             mc.start_linear_motion(body_x_cmd, body_y_cmd, body_z_cmd)
 
