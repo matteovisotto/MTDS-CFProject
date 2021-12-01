@@ -14,8 +14,8 @@ uri = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E704')
 #             x    y    z  YAW
 sequence = [
     (0, 0 , 0.5, 0),
-    (0.5, 0.5, 0.5, 90),
-    (0.5, -0.5, 0.5, 180),
+    (1, 0.5, 0.5, 90),
+    (-1, -0.5, 0.5, 180),
     (-0.5, -0.5, 0.5, 270),
     (-0.5, 0.5, 0.5, 360),
     (0, 0, 0.05, 0),
@@ -95,7 +95,7 @@ def run_sequence(scf, sequence):
 
     for position in sequence:
         print('Setting position {}'.format(position))
-        for i in range(20):
+        for i in range(50):
             cf.commander.send_position_setpoint(position[0],
                                                 position[1],
                                                 position[2],
