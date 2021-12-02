@@ -7,9 +7,9 @@ from Utility.PositionLogging import MCPositionLogging
 
 class SafeFlyController:
 
-    def __init__(self, scf, user_position_controller=True):
+    def __init__(self, scf, use_position_controller=True):
         super.__init__()
-        self.use_position_controller = user_position_controller
+        self.use_position_controller = use_position_controller
         self.motion_commander = None
         self.motion_locked = False
         self.max_x = 0.5
@@ -38,9 +38,11 @@ class SafeFlyController:
         if not self.motion_locked:
             if value > self.max_x:
                 self.motion_locked = True
+                mc.stop()
                 mc.move_distance(-self.max_x, 0, 0)
             elif value < self.min_x:
                 self.motion_locked = True
+                mc.stop()
                 mc.move_distance(-self.min_x, 0, 0)
             self.motion_locked = False
 
@@ -48,9 +50,11 @@ class SafeFlyController:
         if not self.motion_locked:
             if value > self.max_y:
                 self.motion_locked = True
+                mc.stop()
                 mc.move_distance(0, -self.max_y, 0)
             elif value < self.min_y:
                 self.motion_locked = True
+                mc.stop()
                 mc.move_distance(0, -self.min_y, 0)
             self.motion_locked = False
 
@@ -58,9 +62,11 @@ class SafeFlyController:
         if not self.motion_locked:
             if value > self.max_z:
                 self.motion_locked = True
+                mc.stop()
                 mc.move_distance(0, 0, self.default_high - self.max_z)
             elif value < self.min_z:
                 self.motion_locked = True
+                mc.stop()
                 mc.move_distance(0, 0, self.default_high - self.min_z)
             self.motion_locked = False
 
@@ -71,6 +77,7 @@ class SafeFlyController:
             time.sleep(1)
             self.fly_commands(self.motion_commander)
             self.exit_execution()
+
 
     def empty_fly(self, mc):
         time.sleep(1)

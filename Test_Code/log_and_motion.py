@@ -16,6 +16,7 @@ logging.basicConfig(level=logging.ERROR)
 def fly_commands(mc):
     # use the motion commander variable to write your code
     time.sleep(1)
+    mc.start_forward(velocity=0.4)
     mc.stop()
 
 
