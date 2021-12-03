@@ -8,7 +8,7 @@ from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.positioning.motion_commander import MotionCommander
 
 # URI to the Crazyflie to connect to
-uri = 'radio://0/80/2M/E7E7E7E705'
+uri = 'radio://0/80/2M/E7E7E7E703'
 
 is_deck_attached = True
 

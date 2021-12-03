@@ -26,7 +26,7 @@ class PositionLogging:
             print(data)
         for key in self.position_estimate:
             self.position_estimate[key] = data[key]
-            if self.callbacks[key] is not None:
+            if key in self.callbacks:
                 self.callbacks[key](data[key])
 
     def start_logging(self):
@@ -36,7 +36,7 @@ class PositionLogging:
         self.logconf.stop()
 
     def get_value(self, key):
-        if self.position_estimate[key] is not None:
+        if key in self.position_estimate:
             return self.position_estimate[key]
         else:
             raise IndexError('Index not found')
