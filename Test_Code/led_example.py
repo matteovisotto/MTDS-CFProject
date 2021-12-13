@@ -53,23 +53,24 @@ if __name__ == '__main__':
         cf = scf.cf
 
         # Get LED memory and write to it
-        mem = cf.mem.get_mems(MemoryElement.TYPE_DRIVER_LEDTIMING)
+        cf.param.set_value('ring.effect', '13')
+        mem = cf.mem.get_mems(MemoryElement.TYPE_DRIVER_LED)
         if len(mem) > 0:
-            mem[0].add(25, {'r': 100, 'g': 0, 'b': 0})
-            mem[0].add(25, {'r': 0, 'g': 100, 'b': 0}, leds=1)
-            mem[0].add(25, {'r': 0, 'g': 100, 'b': 0}, leds=2)
-            mem[0].add(3000, {'r': 0, 'g': 100, 'b': 0}, leds=3, rotate=1)
-            mem[0].add(50, {'r': 0, 'g': 0, 'b': 100})
-            mem[0].add(25, {'r': 0, 'g': 0, 'b': 100}, fade=True)
-            mem[0].add(25, {'r': 100, 'g': 0, 'b': 0})
-            mem[0].add(25, {'r': 100, 'g': 100, 'b': 100})
-            mem[0].add(25, {'r': 0, 'g': 0, 'b': 0})
+            mem[0].leds[0].set(r=0, g=0, b=0)
+            mem[0].leds[1].set(r=0, g=0, b=0)
+            mem[0].leds[2].set(r=0, g=0, b=0)
+            mem[0].leds[3].set(r=0, g=0, b=0)
+            mem[0].leds[4].set(r=0, g=0, b=0)
+            mem[0].leds[5].set(r=0, g=0, b=0)
+            mem[0].leds[6].set(r=0, g=0, b=0)
+            mem[0].leds[7].set(r=0, g=0, b=0)
+            mem[0].leds[8].set(r=0, g=0, b=0)
+            mem[0].leds[9].set(r=0, g=0, b=0)
+            mem[0].leds[10].set(r=0, g=0, b=0)
+            mem[0].leds[11].set(r=0, g=0, b=0)
             mem[0].write_data(None)
         else:
             print('No LED ring present')
 
-        # Set virtual mem effect effect
-        cf.param.set_value('ring.effect', '0')
-        time.sleep(2)
-        cf.param.set_value('ring.effect', '17')
+
         time.sleep(2)

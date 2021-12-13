@@ -36,6 +36,7 @@ import cflib.crtp
 from cflib.crazyflie import Crazyflie
 from cflib.crazyflie.mem import MemoryElement
 from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
+from cflib.positioning.motion_commander import MotionCommander
 from cflib.utils import uri_helper
 
 URI = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E707')
@@ -44,31 +45,96 @@ URI = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E707')
 logging.basicConfig(level=logging.ERROR)
 
 
+def led(cf, d):
+    cf.param.set_value('ring.effect', '13')
+    mem = cf.mem.get_mems(MemoryElement.TYPE_DRIVER_LED)
+    if d == 'f':
+        if len(mem) > 0:
+            mem[0].leds[11].set(r=0, g=100, b=0)
+            mem[0].leds[0].set(r=0, g=100, b=0)
+            mem[0].leds[1].set(r=0, g=100, b=0)
+            mem[0].leds[2].set(r=0, g=0, b=0)
+            mem[0].leds[3].set(r=0, g=0, b=0)
+            mem[0].leds[4].set(r=0, g=0, b=0)
+            mem[0].leds[5].set(r=0, g=0, b=0)
+            mem[0].leds[6].set(r=0, g=0, b=0)
+            mem[0].leds[7].set(r=0, g=0, b=0)
+            mem[0].leds[8].set(r=0, g=0, b=0)
+            mem[0].leds[9].set(r=0, g=0, b=0)
+            mem[0].leds[10].set(r=0, g=0, b=0)
+            mem[0].write_data(None)
+        elif d == 'r':
+            if len(mem) > 0:
+                mem[0].leds[11].set(r=0, g=0, b=0)
+                mem[0].leds[0].set(r=0, g=0, b=0)
+                mem[0].leds[1].set(r=0, g=0, b=0)
+                mem[0].leds[2].set(r=0, g=100, b=0)
+                mem[0].leds[3].set(r=0, g=100, b=0)
+                mem[0].leds[4].set(r=0, g=100, b=0)
+                mem[0].leds[5].set(r=0, g=0, b=0)
+                mem[0].leds[6].set(r=0, g=0, b=0)
+                mem[0].leds[7].set(r=0, g=0, b=0)
+                mem[0].leds[8].set(r=0, g=0, b=0)
+                mem[0].leds[9].set(r=0, g=0, b=0)
+                mem[0].leds[10].set(r=0, g=0, b=0)
+                mem[0].write_data(None)
+        elif d == 'b':
+            if len(mem) > 0:
+                mem[0].leds[11].set(r=0, g=0, b=0)
+                mem[0].leds[0].set(r=0, g=0, b=0)
+                mem[0].leds[1].set(r=0, g=0, b=0)
+                mem[0].leds[2].set(r=0, g=0, b=0)
+                mem[0].leds[3].set(r=0, g=0, b=0)
+                mem[0].leds[4].set(r=0, g=0, b=0)
+                mem[0].leds[5].set(r=0, g=100, b=0)
+                mem[0].leds[6].set(r=0, g=100, b=0)
+                mem[0].leds[7].set(r=0, g=100, b=0)
+                mem[0].leds[8].set(r=0, g=0, b=0)
+                mem[0].leds[9].set(r=0, g=0, b=0)
+                mem[0].leds[10].set(r=0, g=0, b=0)
+                mem[0].write_data(None)
+        else:
+            if len(mem) > 0:
+                mem[0].leds[11].set(r=0, g=0, b=0)
+                mem[0].leds[0].set(r=0, g=0, b=0)
+                mem[0].leds[1].set(r=0, g=0, b=0)
+                mem[0].leds[2].set(r=0, g=0, b=0)
+                mem[0].leds[3].set(r=0, g=0, b=0)
+                mem[0].leds[4].set(r=0, g=0, b=0)
+                mem[0].leds[5].set(r=0, g=0, b=0)
+                mem[0].leds[6].set(r=0, g=0, b=0)
+                mem[0].leds[7].set(r=0, g=0, b=0)
+                mem[0].leds[8].set(r=0, g=100, b=0)
+                mem[0].leds[9].set(r=0, g=100, b=0)
+                mem[0].leds[10].set(r=0, g=100, b=0)
+                mem[0].write_data(None)
+
+
 if __name__ == '__main__':
     # Initialize the low-level drivers
     cflib.crtp.init_drivers()
 
     with SyncCrazyflie(URI, cf=Crazyflie(rw_cache='./cache')) as scf:
         cf = scf.cf
+        with MotionCommander(scf) as mc:
+            # Set virtual mem effect effect
 
-        # Set virtual mem effect effect
-        cf.param.set_value('ring.effect', '13')
 
-        # Get LED memory and write to it
-        mem = cf.mem.get_mems(MemoryElement.TYPE_DRIVER_LED)
-        if len(mem) > 0:
-            mem[0].leds[0].set(r=0,   g=100, b=0)
-            mem[0].leds[1].set(r=0, g=100, b=0)
-            mem[0].leds[2].set(r=0, g=100, b=0)
-            mem[0].leds[3].set(r=0, g=100, b=0)
-            mem[0].leds[4].set(r=100,   g=100,   b=100)
-            mem[0].leds[5].set(r=100, g=100,   b=100)
-            mem[0].leds[6].set(r=100, g=100, b=100)
-            mem[0].leds[7].set(r=100, g=100, b=100)
-            mem[0].leds[8].set(r=100, g=0, b=0)
-            mem[0].leds[9].set(r=100, g=0, b=0)
-            mem[0].leds[10].set(r=100, g=0, b=0)
-            mem[0].leds[11].set(r=100, g=0, b=0)
-            mem[0].write_data(None)
+            time.sleep(1)
+            led(cf, 'f')
+            mc.forward(0.5)
+            time.sleep(1)
+            led(cf, 'r')
+            mc.right(0.5)
+            time.sleep(1)
+            led(cf, 'b')
+            mc.back(0.5)
+            time.sleep(1)
+            led(cf, 'l')
+            mc.left(0.5)
 
-        time.sleep(2)
+            # Get LED memory and write to it
+
+
+
+            time.sleep(2)

@@ -51,7 +51,7 @@ if __name__ == '__main__':
         cf = scf.cf
 
         # Set solid color effect
-        cf.param.set_value('ring.effect', '7')
+        cf.param.set_value('ring.effect', '11')
         # Set the RGB values
         cf.param.set_value('ring.solidRed', '0')
         cf.param.set_value('ring.solidGreen', '0')
