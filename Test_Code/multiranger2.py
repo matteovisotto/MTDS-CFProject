@@ -32,6 +32,13 @@ def is_far(range, MIN_DISTANCE):
             return range > MIN_DISTANCE
 
 
+def is_equal(range, MIN_DISTANCE):
+    if range is None:
+        return False
+    else:
+        return MIN_DISTANCE - 0.1 < range < MIN_DISTANCE + 0.1
+
+
 if __name__ == '__main__':
     # Initialize the low-level drivers
     cflib.crtp.init_drivers()
@@ -54,8 +61,13 @@ if __name__ == '__main__':
                     time.sleep(0.1)
 
                 while keep_flying:
-                    if is_far(multiranger.front, 0.3):
+
+                    if is_equal(multiranger.front, 0.2):
+                        velocity_x = 0
+
+                    elif is_far(multiranger.front, 0.3):
                         velocity_x = 0.3
+
                     elif is_close(multiranger.front, 0.3):
                         velocity_x = -0.3
 
@@ -65,5 +77,5 @@ if __name__ == '__main__':
                     motion_commander.start_linear_motion(
                         velocity_x, 0, 0)
 
-                    time.sleep(0.1)
+                    time.sleep(0.05)
             log.stop_logging()
