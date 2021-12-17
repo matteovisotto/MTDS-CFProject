@@ -65,6 +65,12 @@ if __name__ == '__main__':
                     if is_equal(multiranger.front, 0.2):
                         velocity_x = 0
 
+                    elif is_far(multiranger.front, 0.7):
+                        velocity_x = 1
+
+                    elif is_far(multiranger.front, 0.5):
+                        velocity_x = 0.7
+
                     elif is_far(multiranger.front, 0.3):
                         velocity_x = 0.3
 

@@ -8,7 +8,7 @@ from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.positioning.motion_commander import MotionCommander
 
 # URI to the Crazyflie to connect to
-uri = 'radio://0/80/2M/E7E7E7E703'
+uri = 'radio://0/80/2M/E7E7E7E704'
 
 is_deck_attached = True
 
@@ -41,7 +41,7 @@ def take_off_simple(scf):
         time.sleep(1)
         mc.forward(0.5)
         mc.circle_right(0.5, velocity=0.2, angle_degrees=180)
-        mc.forward(0.5)
+        mc.forward(0.2)
         mc.circle_right(0.5, velocity=0.2, angle_degrees=180)
         time.sleep(1)
 
