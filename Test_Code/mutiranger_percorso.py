@@ -8,7 +8,7 @@ from cflib.crazyflie.syncCrazyflie import SyncCrazyflie
 from cflib.positioning.motion_commander import MotionCommander
 from cflib.utils import uri_helper
 from cflib.utils.multiranger import Multiranger
-from Utility.PositionLogging import PositionLogging
+from Utility.CFLogging import CFLogging
 
 URI = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E706')
 
@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     cf = Crazyflie(rw_cache='./cache')
     with SyncCrazyflie(URI, cf=cf) as scf:
-        log = PositionLogging(scf, debug_mode= True)
+        log = CFLogging(scf, debug_mode= True)
         log.add_log_variable('range.front', 'uint16_t')
         #log.start_logging()
         with MotionCommander(scf, default_height=0.5) as motion_commander:

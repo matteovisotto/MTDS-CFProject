@@ -5,7 +5,7 @@ Simplified version of logging library
 from cflib.crazyflie.log import LogConfig
 
 
-class PositionLogging:
+class CFLogging:
     # Class init
     # use_default - Add stateEstimate x,y and z variable
     # debug_mode - If True, print variables in console
