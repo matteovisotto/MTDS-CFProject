@@ -2,7 +2,7 @@
 The bottom (down) sensor of multiranger class works both with the Z-Range and FlowV2 deck.
 The variable used to log the distance from the ground (or anything else under the drone)
 is the range.zrange of type uint16_t. The log returns an int value that corresponds to the distance in millimeters.
-To use it directly inside the code use the multiranger.down in Multiranger.
+To use it directly inside the code use the multiranger.down property of Multiranger class.
 
 In this example both log and Multiranger have been used.
 '''
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     cf = Crazyflie(rw_cache='./cache')
     with SyncCrazyflie(URI, cf=cf) as scf:
         log = CFLogging(scf, debug_mode=False)
-        log.add_log_variable('range.zrange', 'uint16_t')
+        log.add_log_variable('range.zrange', 'uint16_t')  # Z range log variable
         log.register_callback('range.zrange', z_cb)
         log.start_logging()
         with MotionCommander(scf, default_height=0.2) as motion_commander:
@@ -67,7 +67,7 @@ if __name__ == '__main__':
                 keep_flying = True
 
                 while keep_flying:
-                    if is_far(multiranger.down, 0.6):
+                    if is_far(multiranger.down, 0.6):  # Z range direct use
                         keep_flying = False
 
                     motion_commander.start_linear_motion(
