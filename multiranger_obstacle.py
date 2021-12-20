@@ -51,7 +51,7 @@ if __name__ == '__main__':
                 keep_flying = True
                 is_started = False
                 is_sliding = False
-                velocity_x = 0.0
+                velocity_x = 0.3
                 velocity_y = 0.0
 
                 start_y = 0
@@ -75,16 +75,7 @@ if __name__ == '__main__':
                             is_sliding = False
                         velocity_x = 0.3
                         velocity_y = 0
-                        if start_y != 0:
-                            end_y = log.get_value('stateEstimate.y')
-                            if is_far(multiranger.right, 0.4) and (end_y - start_y > 0):
-                                velocity_y = -0.3
-                            elif is_far(multiranger.left, 0.4) and (end_y - start_y < 0):
-                                velocity_y = 0.3
-                            elif end_y == start_y:
-                                velocity_y = 0
-                                start_y = 0
-                                end_y = 0
+                        #Inserire qui il rientro alla traiettoria precedente
 
                     if is_close(multiranger.back, 0.3):
                         keep_flying = False
