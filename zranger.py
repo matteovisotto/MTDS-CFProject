@@ -19,7 +19,7 @@ from cflib.utils import uri_helper
 from cflib.utils.multiranger import Multiranger
 from Utility.CFLogging import CFLogging
 
-URI = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E706')
+URI = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E704')
 
 if len(sys.argv) > 1:
     URI = sys.argv[1]
@@ -65,13 +65,15 @@ if __name__ == '__main__':
         with MotionCommander(scf, default_height=0.2) as motion_commander:
             with Multiranger(scf) as multiranger:
                 keep_flying = True
-
+                velocity_z = 0.1
                 while keep_flying:
                     if is_far(multiranger.down, 0.6):  # Z range direct use
-                        keep_flying = False
+                       velocity_z = -0.1
+                    elif is_far(multiranger.down, 0.2):
+                        velocity_z = 0.1
 
                     motion_commander.start_linear_motion(
-                        0, 0, 0.1)
+                        0, 0, velocity_z)
 
                     time.sleep(0.05)
             log.stop_logging()
