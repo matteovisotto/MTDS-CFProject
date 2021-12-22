@@ -19,7 +19,12 @@ from cflib.utils import uri_helper
 from cflib.utils.multiranger import Multiranger
 from Utility.CFLogging import CFLogging
 
-URI = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E704')
+URI = uri_helper.uri_from_env(default='radio://0/80/2M/E7E7E7E706')
+
+DEFAULT_HEIGHT = 0.2
+
+INITIAL_Y = 0
+FINAL_Y = 0
 
 if len(sys.argv) > 1:
     URI = sys.argv[1]
@@ -53,6 +58,42 @@ def z_cb(value):
     print(value / 1000)  # Print returned distance in meters
 
 
+def pass_over(mc, mr):
+    while is_close(mr.front, 0.4):
+        mc.start_linear_motion(0, 0, 0.2)
+        time.sleep(0.05)
+    time.sleep(0.5)
+    mc.start_linear_motion(0.2, 0, 0)
+    time.sleep(2.1)
+    while is_close(mr.down, 0.50):
+        mc.start_linear_motion(0.2, 0, 0)
+        time.sleep(0.05)
+    time.sleep(2.1)
+
+    #while is_far(mr.down, DEFAULT_HEIGHT):
+        #mc.start_linear_motion(0, 0, -0.2)
+        #time.sleep(0.05)
+
+
+def pass_right(mc, mr, log):
+    while is_close(mr.front, 0.4):
+        mc.start_linear_motion(0, -0.2, 0)
+        time.sleep(0.05)
+    time.sleep(0.5)
+    mc.start_linear_motion(0.2, 0, 0)
+    time.sleep(2.1)
+
+    while is_close(mr.left, 0.50):
+        mc.start_linear_motion(0.2, 0, 0)
+        time.sleep(0.05)
+    time.sleep(2.1)
+
+    while log.get_value('stateEstimate.y') < INITIAL_Y:
+        mc.start_linear_motion(0, 0.2, 0)
+        time.sleep(0.05)
+
+
+
 if __name__ == '__main__':
     # Initialize the low-level drivers
     cflib.crtp.init_drivers()
@@ -60,20 +101,19 @@ if __name__ == '__main__':
     with SyncCrazyflie(URI, cf=cf) as scf:
         log = CFLogging(scf, debug_mode=False)
         log.add_log_variable('range.zrange', 'uint16_t')  # Z range log variable
-        log.register_callback('range.zrange', z_cb)
+        #log.register_callback('range.zrange', z_cb)
         log.start_logging()
-        with MotionCommander(scf, default_height=0.2) as motion_commander:
+        with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as motion_commander:
             with Multiranger(scf) as multiranger:
                 keep_flying = True
-                velocity_z = 0.1
                 while keep_flying:
-                    if is_far(multiranger.down, 0.6):  # Z range direct use
-                       velocity_z = -0.1
-                    elif is_far(multiranger.down, 0.2):
-                        velocity_z = 0.1
+                    if is_close(multiranger.front, 0.4):
+                        INITIAL_Y = log.get_value('stateEstimate.y')
+                        pass_right(motion_commander, multiranger, log)
+                        time.sleep(0.5)
+                        keep_flying = False
 
                     motion_commander.start_linear_motion(
-                        0, 0, velocity_z)
-
+                        0.2, 0, 0)
                     time.sleep(0.05)
             log.stop_logging()
