@@ -75,23 +75,28 @@ def pass_over(mc, mr):
         #time.sleep(0.05)
 
 
-def pass_right(mc, mr, log):
+def pass_left(mc, mr, log):
+    mc.start_linear_motion(0, 0, 0)
+    time.sleep(0.1)
     while is_close(mr.front, 0.4):
-        mc.start_linear_motion(0, -0.2, 0)
+        mc.start_linear_motion(0, 0.2, 0)
         time.sleep(0.05)
     time.sleep(0.5)
+    mc.start_linear_motion(0, 0, 0)
+    time.sleep(0.1)
     mc.start_linear_motion(0.2, 0, 0)
     time.sleep(2.1)
-
-    while is_close(mr.left, 0.50):
+    while is_close(mr.right, 0.50):
         mc.start_linear_motion(0.2, 0, 0)
         time.sleep(0.05)
     time.sleep(2.1)
-
-    while log.get_value('stateEstimate.y') < INITIAL_Y:
-        mc.start_linear_motion(0, 0.2, 0)
+    mc.start_linear_motion(0, 0, 0)
+    time.sleep(0.1)
+    while log.get_value('stateEstimate.y') > INITIAL_Y:
+        mc.start_linear_motion(0, -0.2, 0)
         time.sleep(0.05)
-
+    mc.start_linear_motion(0, 0, 0)
+    time.sleep(0.1)
 
 
 if __name__ == '__main__':
@@ -100,8 +105,8 @@ if __name__ == '__main__':
     cf = Crazyflie(rw_cache='./cache')
     with SyncCrazyflie(URI, cf=cf) as scf:
         log = CFLogging(scf, debug_mode=False)
-        log.add_log_variable('range.zrange', 'uint16_t')  # Z range log variable
-        #log.register_callback('range.zrange', z_cb)
+        log.add_log_variable('range.right', 'uint16_t')  # Z range log variable
+        log.register_callback('range.right', z_cb)
         log.start_logging()
         with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as motion_commander:
             with Multiranger(scf) as multiranger:
@@ -109,8 +114,7 @@ if __name__ == '__main__':
                 while keep_flying:
                     if is_close(multiranger.front, 0.4):
                         INITIAL_Y = log.get_value('stateEstimate.y')
-                        pass_right(motion_commander, multiranger, log)
-                        time.sleep(0.5)
+                        pass_left(motion_commander, multiranger, log)
                         keep_flying = False
 
                     motion_commander.start_linear_motion(
