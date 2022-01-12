@@ -79,8 +79,8 @@ if __name__ == '__main__':
     cf = Crazyflie(rw_cache='./cache')
     with SyncCrazyflie(URI, cf=cf) as scf:
         log = CFLogging(scf, debug_mode=False)
-        log.add_log_variable('range.down', 'uint16_t')  # Z range log variable
-        log.register_callback('range.down', z_cb)
+        log.add_log_variable('range.zrange', 'uint16_t')  # Z range log variable
+        log.register_callback('range.zrange', z_cb)
         log.start_logging()
         with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as motion_commander:
             with Multiranger(scf) as multiranger:
