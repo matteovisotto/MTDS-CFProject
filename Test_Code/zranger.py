@@ -61,10 +61,10 @@ def pass_over(mc, mr):
         time.sleep(0.05)
     time.sleep(0.5)
     mc.start_linear_motion(0.2, 0, 0)
-    time.sleep(2.1)
-    while is_close(mr.down, 0.50):
+    time.sleep(4)
+    while is_close(mr.down, 0.10):
         mc.start_linear_motion(0.2, 0, 0)
-        time.sleep(0.05)
+        time.sleep(0.1)
     time.sleep(2.1)
 
     #while is_far(mr.down, DEFAULT_HEIGHT):

@@ -63,7 +63,8 @@ def pass_left(mc, mr, log):
     while is_close(mr.right, 0.50):
         mc.start_linear_motion(0.2, 0, 0)
         time.sleep(0.05)
-    time.sleep(2.1)
+    #time.sleep(2.1)
+    time.sleep(1)
     mc.start_linear_motion(0, 0, 0)
     time.sleep(0.1)
     while log.get_value('stateEstimate.y') > INITIAL_Y:

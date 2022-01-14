@@ -62,19 +62,19 @@ if __name__ == '__main__':
 
                 while keep_flying:
 
-                    if is_equal(multiranger.front, 0.2):
+                    if is_equal(multiranger.front, 0.3):
                         velocity_x = 0
 
-                    elif is_far(multiranger.front, 0.7):
-                        velocity_x = 1
-
-                    elif is_far(multiranger.front, 0.5):
+                    elif is_far(multiranger.front, 1):
                         velocity_x = 0.7
 
-                    elif is_far(multiranger.front, 0.3):
-                        velocity_x = 0.3
+                    elif is_far(multiranger.front, 0.7):
+                        velocity_x = 0.5
 
-                    elif is_close(multiranger.front, 0.3):
+                    elif is_far(multiranger.front, 0.5):
+                        velocity_x = 0.1
+
+                    elif is_close(multiranger.front, 0.5):
                         velocity_x = -0.3
 
                     if multiranger.back < 0.3:
