@@ -24,6 +24,14 @@ if len(sys.argv) > 1:
 logging.basicConfig(level=logging.ERROR)
 
 
+'''
+In this function, using the Multi-ranger deck,we check if the drone is too close to an obstacle in a predetermined direction.
+:param range: The direction to be checked.
+:param MIN_DISTANCE: The distance to be checked.
+:return: Return True if it is too close, otherwise it will return False.
+'''
+
+
 def is_close(range, distance):
     if range is None:
         return False
@@ -31,22 +39,9 @@ def is_close(range, distance):
         return range < distance
 
 
-def is_far(range, distance):
-    if range is None:
-        return False
-    else:
-        return range > distance
+'''
 
-
-def is_equal(range, distance, interval=0.1):
-    if range is None:
-        return False
-    else:
-        return distance - interval < range < distance + interval
-
-
-def y_cb(value):
-    print(value / 1000)  # Print returned distance in meters
+'''
 
 
 def pass_left(mc, mr, log):
@@ -74,14 +69,18 @@ def pass_left(mc, mr, log):
     time.sleep(0.1)
 
 
+'''
+
+'''
+
+
 if __name__ == '__main__':
     # Initialize the low-level drivers
     cflib.crtp.init_drivers()
     cf = Crazyflie(rw_cache='./cache')
     with SyncCrazyflie(URI, cf=cf) as scf:
         log = CFLogging(scf, debug_mode=False)
-        log.add_log_variable('range.right', 'uint16_t')  # Z range log variable
-        log.register_callback('range.right', y_cb)
+        log.add_log_variable('range.right', 'uint16_t')
         log.start_logging()
         with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as motion_commander:
             with Multiranger(scf) as multiranger:

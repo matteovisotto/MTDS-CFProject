@@ -18,12 +18,29 @@ if len(sys.argv) > 1:
 # Only output errors from the logging framework
 logging.basicConfig(level=logging.ERROR)
 
+'''
+In this function, using the Multi-ranger deck,we check if the drone is too close to an obstacle in a predetermined direction.
+:param range: The direction to be checked.
+:param MIN_DISTANCE: The distance to be checked.
+:return: Return True if it is too close, otherwise it will return False.
+'''
+
 
 def is_close(range, MIN_DISTANCE):
     if range is None:
         return False
     else:
         return range < MIN_DISTANCE
+
+
+'''
+In this function, using the Multi-ranger deck,
+we check if the drone is too far from an obstacle in a predetermined direction.
+:param range: The direction to be checked.
+:param MIN_DISTANCE: The distance to be checked.
+:return: Return True if it is too far, otherwise it will return False.
+'''
+
 
 def is_far(range, MIN_DISTANCE):
         if range is None:
@@ -32,11 +49,25 @@ def is_far(range, MIN_DISTANCE):
             return range > MIN_DISTANCE
 
 
+'''
+In this function, using the Multi-ranger deck,
+we check if the drone has a certain distance from an obstacle in a predetermined direction.
+:param range: The direction to be checked.
+:param MIN_DISTANCE: The distance to be checked.
+:return: Return True if it is equal, otherwise it will return False.
+'''
+
+
 def is_equal(range, MIN_DISTANCE):
     if range is None:
         return False
     else:
         return MIN_DISTANCE - 0.1 < range < MIN_DISTANCE + 0.1
+
+
+'''
+
+'''
 
 
 if __name__ == '__main__':

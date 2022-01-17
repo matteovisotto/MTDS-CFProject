@@ -41,7 +41,7 @@ if __name__ == '__main__':
         log = CFLogging(scf, debug_mode= True)
         log.add_log_variable('range.front', 'uint16_t')
         #log.start_logging()
-        with MotionCommander(scf, default_height=0.5) as motion_commander:
+        with MotionCommander(scf, default_height=0.2) as motion_commander:
             with Multiranger(scf) as multiranger:
                     turn_left = False
                     turn_right = True
@@ -55,23 +55,21 @@ if __name__ == '__main__':
                             if (turn_right):
                                 motion_commander.start_linear_motion(0, 0, 0)
                                 motion_commander.turn_right(90)
-                            if (turn_left):
-                                motion_commander.start_linear_motion(0, 0, 0)
-                                motion_commander.turn_left(180)
-                            if (land):
-                                keep_flying = False
-                            if (turn_right):
                                 turn_left = True
                                 turn_right = False
                             if (turn_left):
+                                motion_commander.start_linear_motion(0, 0, 0)
+                                motion_commander.turn_left(180)
                                 turn_left = False
-                                turn_right = False
+                                turn_right = True
+
+                            if is_close(multiranger.front, 0.4):
                                 land = True
 
-                        if is_far(multiranger.front, 0.4):
-                            land = False
-                            turn_right = True
-                            turn_left = False
+                            if (land):
+                                keep_flying = False
+
+                            
 
                         if is_close(multiranger.back, 0.3):
                             keep_flying = False

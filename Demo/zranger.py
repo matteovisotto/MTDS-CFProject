@@ -30,6 +30,14 @@ if len(sys.argv) > 1:
 logging.basicConfig(level=logging.ERROR)
 
 
+'''
+In this function, using the Multi-ranger deck,we check if the drone is too close to an obstacle in a predetermined direction.
+:param range: The direction to be checked.
+:param MIN_DISTANCE: The distance to be checked.
+:return: Return True if it is too close, otherwise it will return False.
+'''
+
+
 def is_close(range, distance):
     if range is None:
         return False
@@ -37,22 +45,9 @@ def is_close(range, distance):
         return range < distance
 
 
-def is_far(range, distance):
-    if range is None:
-        return False
-    else:
-        return range > distance
+'''
 
-
-def is_equal(range, distance, interval=0.1):
-    if range is None:
-        return False
-    else:
-        return distance - interval < range < distance + interval
-
-
-def z_cb(value):
-    print(value / 1000)  # Print returned distance in meters
+'''
 
 
 def pass_over(mc, mr):
@@ -62,15 +57,11 @@ def pass_over(mc, mr):
     time.sleep(0.5)
     mc.start_linear_motion(0.2, 0, 0)
     time.sleep(4)
-    while is_close(mr.down, 0.10):
-        mc.start_linear_motion(0.2, 0, 0)
-        time.sleep(0.1)
-    time.sleep(2.1)
 
-    #while is_far(mr.down, DEFAULT_HEIGHT):
-        #mc.start_linear_motion(0, 0, -0.2)
-        #time.sleep(0.05)
 
+'''
+
+'''
 
 
 if __name__ == '__main__':
@@ -78,10 +69,6 @@ if __name__ == '__main__':
     cflib.crtp.init_drivers()
     cf = Crazyflie(rw_cache='./cache')
     with SyncCrazyflie(URI, cf=cf) as scf:
-        log = CFLogging(scf, debug_mode=False)
-        log.add_log_variable('range.zrange', 'uint16_t')  # Z range log variable
-        log.register_callback('range.zrange', z_cb)
-        log.start_logging()
         with MotionCommander(scf, default_height=DEFAULT_HEIGHT) as motion_commander:
             with Multiranger(scf) as multiranger:
                 keep_flying = True
@@ -93,4 +80,3 @@ if __name__ == '__main__':
                     motion_commander.start_linear_motion(
                         0.2, 0, 0)
                     time.sleep(0.05)
-            log.stop_logging()
