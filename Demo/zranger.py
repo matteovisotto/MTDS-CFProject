@@ -31,7 +31,8 @@ logging.basicConfig(level=logging.ERROR)
 
 
 '''
-In this function, using the Multi-ranger deck,we check if the drone is too close to an obstacle in a predetermined direction.
+In this function, using the Multi-ranger deck,
+we check if the drone is too close to an obstacle in a predetermined direction.
 :param range: The direction to be checked.
 :param MIN_DISTANCE: The distance to be checked.
 :return: Return True if it is too close, otherwise it will return False.
@@ -46,7 +47,11 @@ def is_close(range, distance):
 
 
 '''
-
+In this function will try to overtake the obstacle above it.
+After the obstacle is being surpassed, the drone will return on its original height.
+:param mc: The MotionCommander used.
+:param mr: The MultiRanger used.
+:return: Void.
 '''
 
 
@@ -60,7 +65,9 @@ def pass_over(mc, mr):
 
 
 '''
-
+In the main function we check if the drone detects an obstacle in front of it and if that happens
+it will call the pass_over function.
+:param keep_flying: It is always set to True and goes to False when the algorithm ends.
 '''
 
 

@@ -20,7 +20,8 @@ logging.basicConfig(level=logging.ERROR)
 
 
 '''
-In this function, using the Multi-ranger deck,we check if the drone is too close to an obstacle in a predetermined direction.
+In this function, using the Multi-ranger deck,
+we check if the drone is too close to an obstacle in a predetermined direction.
 :param range: The direction to be checked.
 :param MIN_DISTANCE: The distance to be checked.
 :return: Return True if it is too close, otherwise it will return False.
@@ -67,7 +68,7 @@ def obstacle_avoidance(mc, mr):
 
     if left_1 and right_1:
         print("Right and Left")
-        mc.turn_right(90)
+        mc.turn_left(90)
         return True
     elif left_1 and not right_1:
         print("Left")
